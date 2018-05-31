@@ -6,7 +6,7 @@
 --
 -- Exemplo de uso:
 -- Prelude> putStr (justifica texto)
--- "RUBIÃO      fitava     a     enseada     --    eram  oito   horas   da    manhã.
+-- "RUBIÃO      fitava     a     enseada     eram     oito    horas   da      manhã.
 -- Quem  o  visse  com  os  polegares  metidos  no cordão do chambre à janela de uma
 -- grande  casa  de  Botafogo  cuidaria  que  ele  admirava  aquele  pedaço  de água
 -- quieta    mas    em    verdade    vos    digo   que   pensava   em   outra coisa.
@@ -16,6 +16,9 @@
 -- para o jardim para a enseada para os morros e para o céu e tudo desde as chinelas
 -- até o céu tudo entra na mesma sensação de propriedade."
 --
+
+
+
 --
 -- Dicas:
 -- (1) Quebrar o problema em problemas menores:
