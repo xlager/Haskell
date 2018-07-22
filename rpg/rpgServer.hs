@@ -33,29 +33,29 @@ runConn :: (Socket, SockAddr) -> IO ()
 runConn (sock,_)  = do
   hdl <- socketToHandle sock ReadWriteMode
   hSetBuffering hdl NoBuffering
-  hPutStrLn hdl "Welcome to the World of Smash by P&P Productions"
-  hPutStrLn hdl "Shall we begin?\n"
-  hPutStrLn hdl "Tell us, what is your name?"
+  hPutStrLn hdl "\tWelcome to the World of Smash by P&P Productions"
+  hPutStrLn hdl "\tShall we begin?\n"
+  hPutStrLn hdl "\tTell us, what is your name?"
   name <- fmap init (hGetLine hdl)
-  hPutStrLn hdl ("Welcome, " ++ name ++ "!")
-  hPutStrLn hdl "Here in Hakrtolçiae Academy we have some roles,\
+  hPutStrLn hdl ("\tWelcome, " ++ name ++ "!")
+  hPutStrLn hdl "\tHere in Hakrtolçiae Academy we have some roles,\
   \which one of them do you think you identify yourself?"
   hPutStrLn hdl (show roles)
   role <- setRole hdl
-  hPutStrLn hdl ("Greetings to the world of Kalimarbadorna " ++ name ++ ", the " ++ role++"!")
+  hPutStrLn hdl ("\tGreetings to the world of Kalimarbadorna " ++ name ++ ", the " ++ role ++"!")
   character <- turnPerIO (Per (name) (role) (getRoleAtk (role)) (getRoleHp (role)) empty)
   hPutStrLn hdl (show character)
   hPutStrLn hdl (show (getAtk character))
-  hPutStrLn hdl "\nNow that you have chosen your role, lets begin our first dungeon"
+  hPutStrLn hdl "\n\tNow that you have chosen your role, lets begin our first dungeon"
   printMap hdl 1 
-  result <- battle hdl character dragon 0
+  result <- battle hdl character goblin 0
   hPutStrLn hdl (result)
   if result == "Win"
     then do
-      hPutStrLn hdl "You got an item"
+      hPutStrLn hdl "\tYou got an item"
       character <- (aquireEquip hdl character goblinKnife);
       printChar hdl character goblin
-    else hPutStrLn hdl "Since you ran away, u get no item"
+    else hPutStrLn hdl "\tSince you ran away, u get no item"
   hClose hdl
 
 
@@ -147,7 +147,7 @@ getHDL hdl = do{
 
 roleDescription::Handle->String->IO String
 roleDescription hdl role
-  | role == "Assassin" = 
+  | role == "Assassin" || role == "assassin" = 
     do
       hPutStrLn hdl  "\t       ``       \n\
                      \\t      ````      \n\
@@ -157,22 +157,22 @@ roleDescription hdl role
                      \\t ````     ````  \n\
                      \\t````       ```` \n\
                      \\t ````     ````  \n\n\
-          \\t***Assassin***\
-          \\nAgile and furtive, a high damage but low hp character\n\
+          \\t\t***Assassin***\
+          \\n\tAgile and furtive, a high damage but low hp character\n\
           \\n\tStatus\n\
-          \HP: 3\t ###\n\
-          \Attack: 8\t ********\n\
-          \Skill:\t Shadow: Will always dodge 1st enemy atk\n"
-      hPutStrLn hdl "Is this your choice?(y/n)"
+          \\tHealth: 3\t ###\n\
+          \\tAttack: 8\t ********\n\
+          \\tSkill:\t Shadow: Will always dodge 1st enemy atk\n"
+      hPutStrLn hdl "\tIs this your choice?(y/n)"
       choice <- fmap init (hGetLine hdl)
       if choice == "y"
         then return role
         else 
           do
-            hPutStrLn hdl "Then wich one is your choice?";
+            hPutStrLn hdl "\tThen wich one is your choice?";
             hPutStrLn hdl (show roles);
             setRole hdl
-  | role == "Cleric" = 
+  | role == "Cleric" || role == "cleric" = 
     do
       hPutStrLn hdl  "\t     `````       \n\
                      \\t      ```        \n\
@@ -181,22 +181,22 @@ roleDescription hdl role
                      \\t``    ```    ``  \n\
                      \\t      ```        \n\
                      \\t     `````       \n\
-          \\t\n ***Cleric***\
-          \\nA little weak character but also with great life and kindness\n\
+          \\t\t ***Cleric***\
+          \\n\tA little weak character but also with great life and kindness\n\
           \\tStatus\n\
-          \Health: 8\t ######## \n\
-          \Attack: 3\t ***\n\
-          \Skill:\t Will of Living: Will be revived once per battle"
-      hPutStrLn hdl "Is this your choice?(y/n)"
+          \\tHealth: 8\t ######## \n\
+          \\tAttack: 3\t ***\n\
+          \\tSkill:\t Will of Living: Will be revived once per battle"
+      hPutStrLn hdl "\tIs this your choice?(y/n)"
       choice <- fmap init (hGetLine hdl)
       if choice == "y"
         then return role
         else 
           do
-            hPutStrLn hdl "Then wich one is your choice?";
+            hPutStrLn hdl "\tThen wich one is your choice?";
             hPutStrLn hdl (show roles);
             setRole hdl
-  | role == "Mage" = 
+  | role == "Mage" || role == "mage" = 
     do
       hPutStrLn hdl "\t             ```         `` \n\
                     \\t          ``````    ``````  \n\
@@ -212,18 +212,18 @@ roleDescription hdl role
                     \\t  ```````````````           \n\  
                     \\t    ```````````             \n\
           \\n\t***Mage***\
-          \\nHigh damage and avarage life          \n\
+          \\n\tHigh damage and avarage life          \n\
           \\tStatus                                \n\
-          \Health: 4\t ####                       \n\
-          \Attack: 7\t *******                     \n\
-          \Skill: Fire Ball: Cause severe damage on oponent"
-      hPutStrLn hdl "Is this your choice?(y/n)"
+          \\tHealth: 4\t ####                       \n\
+          \\tAttack: 7\t *******                     \n\
+          \\tSkill: Fire Ball: Cause severe damage on oponent"
+      hPutStrLn hdl "\tIs this your choice?(y/n)"
       choice <- fmap init (hGetLine hdl)
       if choice == "y"
         then return role
         else 
           do
-            hPutStrLn hdl "Then wich one is your choice?";
+            hPutStrLn hdl "\tThen wich one is your choice?";
             hPutStrLn hdl (show roles);
             setRole hdl            
   | role == "Ranger" = 
@@ -235,16 +235,16 @@ roleDescription hdl role
           \HP: ###\n\
           \Attack: *******\n\
           \Skill:Will always dodge 1st enemy atk"
-      hPutStrLn hdl "Is this your choice?(y/n)"
+      hPutStrLn hdl "\tIs this your choice?(y/n)"
       choice <- fmap init (hGetLine hdl)
       if choice == "y"
         then return role
         else 
           do
-            hPutStrLn hdl "Then wich one is your choice?";
+            hPutStrLn hdl "\tThen wich one is your choice?";
             hPutStrLn hdl (show roles);
             setRole hdl
-  | role == "Warrior" = 
+  | role == "Warrior" || role == "warrior" = 
     do
       hPutStrLn hdl "\t                   ``````````` \n\
                     \\t                 ````       `` \n\
@@ -262,24 +262,24 @@ roleDescription hdl role
                     \\t````````     `````             \n\
                     \\t``````                         \n\
 
-          \\t\n***Warrior***\t|\
+          \\n\t\t***Warrior***\t|\
           \\nA balanced character\n\
           \\tStatus\n\
-          \Health: 5\t#####\n\
-          \Attack: 5\t*****\n\
-          \Skill:Gets +3 health as a armor"
-      hPutStrLn hdl "Is this your choice?(y/n)"
+          \\tHealth: 5\t#####\n\
+          \\tAttack: 5\t*****\n\
+          \\tSkill:Gets +3 health as a armor"
+      hPutStrLn hdl "\tIs this your choice?(y/n)"
       choice <- fmap init (hGetLine hdl)
       if choice == "y"
         then return role
         else 
           do
-            hPutStrLn hdl "Then wich one is your choice?";
+            hPutStrLn hdl "\tThen wich one is your choice?";
             hPutStrLn hdl (show roles);
             setRole hdl            
   |otherwise = 
     do
-     hPutStrLn hdl "You had written in a foregin language, please english";
+     hPutStrLn hdl "\tYou had written in a foregin language, please english";
      hPutStrLn hdl (show roles);
      setRole hdl
 
@@ -293,27 +293,36 @@ battle hdl principal monstro turno
           principal <- turnPerIO  (Per(getName principal)("-Cleric")(getRoleAtk (getRole principal))(getRoleHp (getRole principal)) empty)
           printChar hdl principal monstro
           battle hdl principal monstro turno
-      else do
-        hPutStrLn hdl ("===================================================================\
-        \\tVocê perdeu e terá de reiniciar o jogo!!!!!!================================\n\n\n")
-        hClose hdl
-        return "Lost"
+      else 
+        do
+          hPutStrLn hdl ("===================================================================\
+          \Você perdeu e terá de reiniciar o jogo!!!!!!================================\n\n\n")
+          hClose hdl
+          return "Lost"
   |getHp monstro <= 0 = 
     do
-      hPutStrLn hdl "Congratulations you won!"
+      hPutStrLn hdl "\tCongratulations you won!"
       return "Win"
   |otherwise =
     do
       printChar hdl principal monstro
       hPutStrLn hdl ("\n\tTurno: "++(show turno))
-      hPutStrLn hdl ("\n O que deseja fazer? (Attack(a),Skill(s),Run(r))")
+      hPutStrLn hdl ("\n\t O que deseja fazer? (Attack(a),Skill(s),Run(r))")
       action<- fmap init (hGetLine hdl)
       case action of
         "a" -> 
           do
-            principal <- turnPerIO  (Per(getName principal)(getRole principal)(getAtk principal)((getHp principal)-(getAtk monstro)) Vazio)
-            monstro <- turnPerIO    (Per(getName monstro) (getRole monstro) (getAtk monstro) ((getHp monstro) - (getAtk principal)) Vazio)
-            battle hdl principal monstro (turno+1)
+            if getRole principal == "Assassin" && turno == 0 
+              then
+                do
+                  principal <- turnPerIO  (Per(getName principal)(getRole principal)(getAtk principal)(getHp principal) Vazio)
+                  monstro <- turnPerIO    (Per(getName monstro) (getRole monstro) (getAtk monstro) ((getHp monstro) - (getAtk principal)) Vazio)
+                  battle hdl principal monstro (turno+1)
+              else
+                do
+                  principal <- turnPerIO  (Per(getName principal)(getRole principal)(getAtk principal)((getHp principal)-(getAtk monstro)) Vazio)
+                  monstro <- turnPerIO    (Per(getName monstro) (getRole monstro) (getAtk monstro) ((getHp monstro) - (getAtk principal)) Vazio)
+                  battle hdl principal monstro (turno+1)
         "s" -> 
           do
             case (getRole principal) of
@@ -329,11 +338,11 @@ battle hdl principal monstro turno
                   battle hdl principal monstro (turno+1)
               _ ->
                 do
-                  hPutStrLn hdl "You can't do that"
+                  hPutStrLn hdl "\tYou can't do that"
                   battle hdl principal monstro turno
         "r" -> 
           do
-            hPutStrLn hdl "You ran away from battle chicken, also, the monster will still be there"
+            hPutStrLn hdl "\tYou ran away from battle chicken, also, the monster will still be there"
             return "Run"
     
 printChar::Handle->Personagem->Personagem->IO ()
@@ -360,7 +369,7 @@ printMap hdl num =
                          \\t---------------")          
       2 -> 
         do
-          hPutStrLn hdl ("bye")
+          hPutStrLn hdl ("\t You entered the second room, at north")
       3 -> 
         do
           hPutStrLn hdl ("bye")
