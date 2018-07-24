@@ -17,7 +17,7 @@ main :: IO ()
 main = do
   sock <- socket AF_INET Stream 0
   setSocketOption sock ReuseAddr 1
-  bind sock (SockAddrInet 4242 iNADDR_ANY)
+  bind sock (SockAddrInet 4244 iNADDR_ANY)
   listen sock 2
   mainLoop sock
  
@@ -26,6 +26,7 @@ mainLoop :: Socket  -> IO ()
 mainLoop sock = do
   conn <- accept sock
   forkIO (runConn conn)
+  close sock
   mainLoop sock
 
 -------------------------- Aqui começa o "Main", onde roda o jogo ---------------------------------------------
@@ -931,7 +932,7 @@ aquireEquip hdl character eqp =
               turnPerIO (Per(getName character) (getRole character) (getRoleAtk (getRole character)) (getRoleHp (getRole character)  + (getEquipAtribute eqp)) eqp)
       else
         do
-          character<-  turnPerIO(Per(getName character)(getRole character)(getRoleAtk (getRole character) + (getEquipAtribute eqp)) (getRoleHp (getRole character)) eqp)
+          character<-  turnPerIO(Per(getName character)(getRole character)(getRoleAtk (getRole character) + (getEquipAtribute eqp)) (getRoleHp (getRole character)) (getEquip (character)))
           printCharSolo hdl character;
           turnPerIO (Per(getName character) (getRole character) (getAtk character) (getHp character) (getEquip character))
 
