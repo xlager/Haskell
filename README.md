@@ -3,9 +3,12 @@ Repositório designado para os trabalhos da cadeira de Programação Funcional e
 
 ## Trabalho 1 - Implementação de um programa que justifica textos
 O objetivo do trabalho é implementar a função
-justifica:
+
+justifica: que recebe como entrada uma string contendo um texto em várias linhas e devolve o mesmo texto justificado pela maior linha. 
+
 justifica :: String -> String
-que recebe como entrada uma string contendo um texto em várias linhas e devolve o mesmo texto justificado pela maior linha. Exemplo de texto:
+
+Exemplo de texto:
 >"RUBIÃO fitava a enseada eram oito horas da manhã.\n
 >Quem o visse com os polegares metidos no cordão do chambre à janela de uma\n
 > grande casa de Botafogo cuidaria que ele admirava aquele pedaço de água\n
@@ -17,7 +20,9 @@ que recebe como entrada uma string contendo um texto em várias linhas e devolve
 > até o céu tudo entra na-- mesma sensação de propriedade."
 
 Exemplo de uso:
+
 Prelude> putStr (justifica texto)
+
 >"RUBIÃO      fitava     a     enseada     eram     oito    horas   da      manhã.
 > Quem  o  visse  com  os  polegares  metidos  no cordão do chambre à janela de uma
 > grande  casa  de  Botafogo  cuidaria  que  ele  admirava  aquele  pedaço  de água
